@@ -60,6 +60,14 @@
                         🗑️ Delete Category
                     </button>
                 </form>
+                <form method="POST" action="{% url 'update_category' category.category_id %}"
+                      class="mt-3">
+                    {% csrf_token %}
+                    <button type="submit"
+                            class="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition duration-200">
+                        ‍💻 Update Category
+                    </button>
+                </form>
             </div>
         </div>
         {% endfor %}

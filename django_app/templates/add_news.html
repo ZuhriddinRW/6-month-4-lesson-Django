@@ -25,27 +25,69 @@
                         <div class="mb-4">
                             <label for="{{ form.title.id_for_label }}" class="form-label fw-semibold text-muted">
                                 <i class="bi bi-file-earmark-text me-2"></i>Title
+                                <span class="text-danger">*</span>
                             </label>
                             {{ form.title }}
+                            {% if form.title.errors %}
+                            <div class="text-danger small mt-1">{{ form.title.errors }}</div>
+                            {% endif %}
                         </div>
 
                         <div class="mb-4">
                             <label for="{{ form.category.id_for_label }}" class="form-label fw-semibold text-muted">
                                 <i class="bi bi-tag me-2"></i>Category
+                                <span class="text-danger">*</span>
                             </label>
                             {{ form.category }}
+                            {% if form.category.errors %}
+                            <div class="text-danger small mt-1">{{ form.category.errors }}</div>
+                            {% endif %}
                         </div>
 
                         <div class="mb-4">
                             <label for="{{ form.content.id_for_label }}" class="form-label fw-semibold text-muted">
-                                <i class="bi bi-pencil-square me-2"></i>Context
+                                <i class="bi bi-pencil-square me-2"></i>Content
+                                <span class="text-danger">*</span>
                             </label>
                             {{ form.content }}
+                            {% if form.content.errors %}
+                            <div class="text-danger small mt-1">{{ form.content.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="{{ form.photo.id_for_label }}" class="form-label fw-semibold text-muted">
+                                <i class="bi bi-image me-2"></i>Photo
+                                <span class="text-danger">*</span>
+                            </label>
+                            {{ form.photo }}
+                            {% if form.photo.errors %}
+                            <div class="text-danger small mt-1">{{ form.photo.errors }}</div>
+                            {% endif %}
+                            <div class="form-text">Upload a photo for the news article</div>
+                        </div>
+
+                        <div class="mb-4">
+                            <div class="form-check">
+                                {{ form.bool }}
+                                <label for="{{ form.bool.id_for_label }}"
+                                       class="form-check-label fw-semibold text-muted">
+                                    <i class="bi bi-eye me-2"></i>Publish this article
+                                </label>
+                            </div>
+                            {% if form.bool.errors %}
+                            <div class="text-danger small mt-1">{{ form.bool.errors }}</div>
+                            {% endif %}
+                            <div class="form-text">Check this to make the article visible to readers</div>
                         </div>
 
                         <button type="submit" class="btn btn-primary btn-lg w-100 rounded-3 shadow">
                             <i class="bi bi-send me-2"></i>Add News
                         </button>
+
+                        <a href="{% url 'index' %}" class="btn btn-outline-secondary w-100 rounded-3 mt-2">
+                            <i class="bi bi-arrow-left me-2"></i>Back
+                        </a>
                     </form>
                 </div>
             </div>

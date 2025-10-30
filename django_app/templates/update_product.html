@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Product</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-green-50 to-teal-100 min-h-screen">
+<div class="container mx-auto px-4 py-8">
+
+    <div class="flex justify-between items-center mb-8 bg-white rounded-lg shadow-md p-4">
+        <h2 class="text-3xl font-bold text-green-600 m-0">
+            <i class="bi bi-pencil-square me-2"></i>Edit Product
+        </h2>
+        <a href="{% url 'products' %}"
+           class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition no-underline text-gray-700">
+            ← Back
+        </a>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-6">
+        <div class="bg-green-600 text-white px-6 py-3">
+            <strong class="text-lg">Current Product Information</strong>
+        </div>
+        <div class="p-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <p class="m-0"><strong class="text-gray-700">ID:</strong> <span
+                        class="text-gray-600">{{ product.product_id }}</span></p>
+                <p class="m-0"><strong class="text-gray-700">Category:</strong> <span
+                        class="inline-block bg-green-500 text-white text-sm px-3 py-1 rounded-full">{{ product.category }}</span>
+                </p>
+                <p class="m-0"><strong class="text-gray-700">Product Name:</strong> <span class="text-gray-600">{{ product.product_name }}</span>
+                </p>
+                <p class="m-0"><strong class="text-gray-700">Unit Price:</strong> <span
+                        class="text-gray-600">${{ product.unit_price }}</span></p>
+            </div>
+            <p class="mt-4 mb-0"><strong class="text-gray-700">Description:</strong> <span class="text-gray-600">{{ product.description|truncatewords:20|default:"(empty)" }}</span>
+            </p>
+            {% if product.image %}
+            <div class="mt-4">
+                <strong class="text-gray-700">Current Image:</strong>
+                <div class="mt-2">
+                    <img src="{{ product.image.url }}" alt="Current image" class="rounded-lg shadow-md"
+                         style="max-width: 300px;">
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-green-600 to-teal-600 text-white px-6 py-3">
+            <strong class="text-lg">Edit Product Details</strong>
+        </div>
+        <div class="p-6">
+            <form method="POST" enctype="multipart/form-data" action="{% url 'update_product' product.product_id %}">
+                {% csrf_token %}
+
+                <div class="mb-4">
+                    <label for="id_product_name" class="block text-gray-700 font-semibold mb-2">
+                        <i class="bi bi-box-seam me-1"></i>Product Name
+                    </label>
+                    {{ form.product_name }}
+                </div>
+
+                <div class="mb-4">
+                    <label for="id_category" class="block text-gray-700 font-semibold mb-2">
+                        <i class="bi bi-tag me-1"></i>Category
+                    </label>
+                    {{ form.category }}
+                </div>
+
+                <div class="mb-4">
+                    <label for="id_unit_price" class="block text-gray-700 font-semibold mb-2">
+                        <i class="bi bi-currency-dollar me-1"></i>Unit Price
+                    </label>
+                    {{ form.unit_price }}
+                    <div class="text-gray-500 text-sm mt-1">Enter the price per unit.</div>
+                </div>
+
+                <div class="mb-4">
+                    <label for="id_description" class="block text-gray-700 font-semibold mb-2">
+                        <i class="bi bi-text-paragraph me-1"></i>Description
+                    </label>
+                    {{ form.description }}
+                    <div class="text-gray-500 text-sm mt-1">Write a description for this product (optional).</div>
+                </div>
+
+                <div class="mb-4">
+                    <label for="id_image" class="block text-gray-700 font-semibold mb-2">
+                        <i class="bi bi-image me-1"></i>Product Image
+                    </label>
+                    {{ form.image }}
+                    <div class="text-gray-500 text-sm mt-1">Upload a new image to replace the current one (optional).
+                    </div>
+                </div>
+
+                <div class="flex gap-3">
+                    <button type="submit"
+                            class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-6 rounded-lg transition duration-200 shadow-md">
+                        <i class="bi bi-check-circle me-2"></i>Save Changes
+                    </button>
+                    <a href="{% url 'products' %}"
+                       class="bg-white border border-gray-300 hover:bg-gray-100 text-gray-700 font-medium py-2 px-6 rounded-lg transition duration-200 shadow-md no-underline inline-flex items-center">
+                        <i class="bi bi-x-circle me-2"></i>Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

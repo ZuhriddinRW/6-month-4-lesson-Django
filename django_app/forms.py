@@ -41,29 +41,30 @@ class NewsForm ( forms.ModelForm ) :
         return title
 
 
-class CategoryForm ( forms.Form ) :
-    category_name = forms.CharField (
-        max_length=100,
-        widget=forms.TextInput ( attrs={
-            'class' : 'form-control rounded-3 border-primary mb-0',
-            'placeholder' : 'Enter category name',
-        } )
-    )
-    description = forms.CharField (
-        required=False,
-        widget=forms.Textarea ( attrs={
-            'class' : 'form-control rounded-3 border-primary',
-            'rows' : 6,
-            'style' : 'resize: vertical; min-height: 120px;',
-            'placeholder' : 'Enter description (e.g., Toys and games for kids)',
-        } )
-    )
-    image = forms.ImageField (
-        required=False,
-        widget=forms.ClearableFileInput ( attrs={
-            'class' : 'form-control rounded-3 border-primary',
-        } )
-    )
+class CategoryForm ( forms.ModelForm ) :
+    class Meta :
+        model = Category
+        fields = ['category_name', 'description', 'image']
+        widgets = {
+            'category_name' : forms.TextInput ( attrs={
+                'class' : 'form-control rounded-3 border-primary mb-0',
+                'placeholder' : 'Enter category name',
+            } ),
+            'description' : forms.Textarea ( attrs={
+                'class' : 'form-control rounded-3 border-primary',
+                'rows' : 6,
+                'style' : 'resize: vertical; min-height: 120px;',
+                'placeholder' : 'Enter description (e.g., Toys and games for kids)',
+            } ),
+            'image' : forms.ClearableFileInput ( attrs={
+                'class' : 'form-control rounded-3 border-primary',
+            } ),
+        }
+
+    def __init__(self, *args, **kwargs) :
+        super ().__init__ ( *args, **kwargs )
+        self.fields['description'].required = False
+        self.fields['image'].required = False
 
     def clean_category_name(self) :
         category_name = self.cleaned_data.get ( 'category_name', '' ).strip ()
@@ -80,41 +81,37 @@ class CategoryForm ( forms.Form ) :
         return category_name
 
 
-class ProductForm ( forms.Form ) :
-    product_name = forms.CharField (
-        max_length=50,
-        widget=forms.TextInput ( attrs={
-            'class' : 'form-control rounded-3 border-primary mb-0',
-            'placeholder' : 'Enter product name',
-        } )
-    )
-    category = forms.ModelChoiceField (
-        queryset=Category.objects.all (),
-        widget=forms.Select ( attrs={
-            'class' : 'form-select rounded-3 border-primary',
-        } )
-    )
-    unit_price = forms.IntegerField (
-        widget=forms.NumberInput ( attrs={
-            'class' : 'form-control rounded-3 border-primary',
-            'placeholder' : 'Enter unit price',
-        } )
-    )
-    description = forms.CharField (
-        required=False,
-        widget=forms.Textarea ( attrs={
-            'class' : 'form-control rounded-3 border-primary',
-            'rows' : 6,
-            'style' : 'resize: vertical; min-height: 120px;',
-            'placeholder' : 'Enter description (e.g., Database design principles)',
-        } )
-    )
-    image = forms.ImageField (
-        required=False,
-        widget=forms.ClearableFileInput ( attrs={
-            'class' : 'form-control rounded-3 border-primary',
-        } )
-    )
+class ProductForm ( forms.ModelForm ) :
+    class Meta :
+        model = Product
+        fields = "__all__"
+        widgets = {
+            'product_name' : forms.TextInput ( attrs={
+                'class' : 'form-control rounded-3 border-primary mb-0',
+                'placeholder' : 'Enter product name',
+            } ),
+            'category' : forms.Select ( attrs={
+                'class' : 'form-select rounded-3 border-primary',
+            } ),
+            'unit_price' : forms.NumberInput ( attrs={
+                'class' : 'form-control rounded-3 border-primary',
+                'placeholder' : 'Enter unit price',
+            } ),
+            'description' : forms.Textarea ( attrs={
+                'class' : 'form-control rounded-3 border-primary',
+                'rows' : 6,
+                'style' : 'resize: vertical; min-height: 120px;',
+                'placeholder' : 'Enter description (e.g., Database design principles)',
+            } ),
+            'image' : forms.ClearableFileInput ( attrs={
+                'class' : 'form-control rounded-3 border-primary',
+            } ),
+        }
+
+    def __init__(self, *args, **kwargs) :
+        super ().__init__ ( *args, **kwargs )
+        self.fields['description'].required = False
+        self.fields['image'].required = False
 
     def clean_product_name(self) :
         product_name = self.cleaned_data.get ( 'product_name', '' ).strip ()
@@ -142,57 +139,47 @@ class ProductForm ( forms.Form ) :
         return unit_price
 
 
-class SupplierForm ( forms.Form ) :
-    company_name = forms.CharField (
-        max_length=50,
-        widget=forms.TextInput ( attrs={
-            'class' : 'form-control rounded-3 border-primary mb-0',
-            'placeholder' : 'Enter company name',
-        } )
-    )
-    contact_name = forms.CharField (
-        max_length=50,
-        widget=forms.TextInput ( attrs={
-            'class' : 'form-control rounded-3 border-primary mb-0',
-            'placeholder' : 'Enter contact name',
-        } )
-    )
-    contact_title = forms.CharField (
-        max_length=50,
-        widget=forms.TextInput ( attrs={
-            'class' : 'form-control rounded-3 border-primary mb-0',
-            'placeholder' : 'Enter contact title',
-        } )
-    )
-    address = forms.CharField (
-        max_length=50,
-        widget=forms.Textarea ( attrs={
-            'class' : 'form-control rounded-3 border-primary',
-            'rows' : 2,
-            'style' : 'resize: vertical; min-height: 60px;',
-            'placeholder' : 'Enter address',
-        } )
-    )
-    city = forms.CharField (
-        max_length=50,
-        widget=forms.TextInput ( attrs={
-            'class' : 'form-control rounded-3 border-primary mb-0',
-            'placeholder' : 'Enter city',
-        } )
-    )
-    region = forms.CharField (
-        max_length=50,
-        widget=forms.TextInput ( attrs={
-            'class' : 'form-control rounded-3 border-primary mb-0',
-            'placeholder' : 'Enter region',
-        } )
-    )
-    image = forms.ImageField (
-        required=False,
-        widget=forms.ClearableFileInput ( attrs={
-            'class' : 'form-control rounded-3 border-primary',
-        } )
-    )
+class SupplierForm ( forms.ModelForm ) :
+    class Meta :
+        model = Supplier
+        exclude = ['supplier_id']
+
+        widgets = {
+            'company_name' : forms.TextInput ( attrs={
+                'class' : 'form-control rounded-3 border-primary mb-0',
+                'placeholder' : 'Enter company name',
+            } ),
+            'contact_name' : forms.TextInput ( attrs={
+                'class' : 'form-control rounded-3 border-primary mb-0',
+                'placeholder' : 'Enter contact name',
+            } ),
+            'contact_title' : forms.TextInput ( attrs={
+                'class' : 'form-control rounded-3 border-primary mb-0',
+                'placeholder' : 'Enter contact title',
+            } ),
+            'address' : forms.Textarea ( attrs={
+                'class' : 'form-control rounded-3 border-primary',
+                'rows' : 2,
+                'style' : 'resize: vertical; min-height: 60px;',
+                'placeholder' : 'Enter address',
+            } ),
+            'city' : forms.TextInput ( attrs={
+                'class' : 'form-control rounded-3 border-primary mb-0',
+                'placeholder' : 'Enter city',
+            } ),
+            'region' : forms.TextInput ( attrs={
+                'class' : 'form-control rounded-3 border-primary mb-0',
+                'placeholder' : 'Enter region',
+            } ),
+            'image' : forms.ClearableFileInput ( attrs={
+                'class' : 'form-control rounded-3 border-primary',
+            } ),
+        }
+
+    def __init__(self, *args, **kwargs) :
+        super ().__init__ ( *args, **kwargs )
+        self.fields['image'].required = False
+        self.fields['region'].required = False
 
     def clean_company_name(self) :
         company_name = self.cleaned_data.get ( 'company_name', '' )
@@ -202,25 +189,29 @@ class SupplierForm ( forms.Form ) :
 
     def clean_city(self) :
         city = self.cleaned_data.get ( 'city', '' ).strip ()
-
         if not city :
             raise ValidationError ( 'City field is required' )
-
         if not city[0].isupper () :
             raise ValidationError ( 'City name must start with an uppercase letter' )
-
         if len ( city ) < 3 or len ( city ) > 50 :
             raise ValidationError ( 'City name must be between 3 and 50 characters long' )
-
         return city
 
     def clean_region(self) :
-        region = self.cleaned_data.get ( 'region', '' ).strip ()
+        region = self.cleaned_data.get ( 'region' )
 
-        if region and not region[0].isupper () :
+        if not region :
+            return None
+
+        region = str ( region ).strip () if region else None
+
+        if not region :
+            return None
+
+        if not region[0].isupper () :
             raise ValidationError ( 'Region name must start with an uppercase letter' )
 
-        if region and (len ( region ) < 3 or len ( region ) > 50) :
+        if len ( region ) < 3 or len ( region ) > 50 :
             raise ValidationError ( 'Region name must be between 3 and 50 characters long' )
 
         return region

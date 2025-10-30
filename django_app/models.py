@@ -4,8 +4,8 @@ from django.db import models
 class Category ( models.Model ) :
     category_id = models.AutoField ( primary_key=True )
     category_name = models.CharField ( max_length=100 )
-    description = models.TextField ( blank=True, null=True )
-    image = models.ImageField ( upload_to='photo/%Y/%m/%d', blank=True, null=True )
+    description = models.TextField ( default='Default Description' )
+    image = models.ImageField ( upload_to='photo/%Y/%m/%d', default='images/category.png' )
 
     def __str__(self) :
         return self.category_name
@@ -39,7 +39,7 @@ class Supplier ( models.Model ) :
     contact_title = models.CharField ( max_length=50 )
     address = models.CharField ( max_length=50 )
     city = models.CharField ( max_length=50 )
-    region = models.CharField ( max_length=50 )
+    region = models.CharField ( max_length=50, blank=True, null=True )
     image = models.ImageField ( upload_to='photo/%Y/%m/%d', blank=True, null=True )
 
     class Meta :
@@ -48,12 +48,11 @@ class Supplier ( models.Model ) :
 
 
 class News ( models.Model ) :
-    news_id = models.IntegerField ()
     title = models.CharField ( max_length=100, verbose_name='Title' )
-    content = models.TextField ( blank=True, null=True, verbose_name='Content' )
+    content = models.TextField ( verbose_name='Content' )
     created_at = models.DateTimeField ( auto_now_add=True, verbose_name='Add_date' )
     updated_at = models.DateTimeField ( auto_now=True )
-    photo = models.ImageField ( upload_to='photo/%Y/%m/%d', blank=True, null=True )
+    photo = models.ImageField ( upload_to='photo/%Y/%m/%d' )
     bool = models.BooleanField ( default=False, verbose_name='Bool' )
     category = models.ForeignKey ( Category, on_delete=models.CASCADE, default=1 )
 

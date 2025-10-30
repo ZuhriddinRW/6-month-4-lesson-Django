@@ -120,9 +120,9 @@ def delete_supplier(request, supplier_id) :
     return redirect ( 'suppliers' )
 
 
-def delete_news(request, news_id) :
+def delete_news(request, pk) :
     if request.method == "POST" :
-        news = get_object_or_404 ( News, news_id=news_id )
+        news = get_object_or_404 ( News, pk=pk )
         news_title = News.title
         news.delete ()
         messages.success ( request, f"News '{news_title}' has been deleted successfully." )
@@ -130,8 +130,8 @@ def delete_news(request, news_id) :
     return redirect ( 'news' )
 
 
-def update_news(request, news_id) :
-    news = get_object_or_404 ( News, news_id=news_id )
+def update_news(request, pk) :
+    news = get_object_or_404 ( News, pk=pk )
     if request.method == "POST" :
         form = NewsForm ( request.POST, request.FILES, instance=news )
         if form.is_valid () :
@@ -144,3 +144,54 @@ def update_news(request, news_id) :
         'news' : news
     }
     return render ( request, 'update_news.html', context=context )
+
+
+def update_category(request, category_id) :
+    category = get_object_or_404 ( Category, category_id=category_id )
+    if request.method == "POST" :
+        form = CategoryForm ( request.POST, request.FILES, instance=category )
+        if form.is_valid () :
+            form.save ()
+            messages.success ( request, f"Category '{category.category_name}' has been updated successfully." )
+            return redirect ( 'categories' )
+    else :
+        form = CategoryForm ( instance=category )
+    context = {
+        'form' : form,
+        'category' : category
+    }
+    return render ( request, 'update_category.html', context=context )
+
+
+def update_product(request, product_id) :
+    product = get_object_or_404 ( Product, product_id=product_id )
+    if request.method == "POST" :
+        form = ProductForm ( request.POST, request.FILES, instance=product )
+        if form.is_valid () :
+            form.save ()
+            messages.success ( request, f"Product '{product.product_name}' has been updated successfully" )
+            return redirect ( 'products' )
+    else :
+        form = ProductForm ( instance=product )
+    context = {
+        'form' : form,
+        'product' : product
+    }
+    return render ( request, 'update_product.html', context=context )
+
+
+def update_supplier(request, supplier_id) :
+    supplier = get_object_or_404 ( Supplier, supplier_id=supplier_id )
+    if request.method == "POST" :
+        form = SupplierForm ( request.POST, request.FILES, instance=supplier )
+        if form.is_valid () :
+            form.save ()
+            messages.success ( request, f"Supplier '{supplier.contact_name}' has been updated successfully" )
+            return redirect ( 'suppliers' )
+    else :
+        form = SupplierForm ( instance=supplier )
+    context = {
+        'form' : form,
+        'supplier' : supplier
+    }
+    return render ( request, 'update_supplier.html', context=context )

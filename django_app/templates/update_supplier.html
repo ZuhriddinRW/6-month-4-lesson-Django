@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Supplier</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+<div class="container mx-auto px-4 py-8">
+
+    <div class="flex justify-between items-center mb-8 bg-white rounded-lg shadow-md p-4">
+        <h2 class="text-3xl font-bold text-blue-600 m-0">
+            <i class="bi bi-pencil-square me-2"></i>Edit Supplier
+        </h2>
+        <a href="{% url 'suppliers' %}"
+           class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition no-underline text-gray-700">
+            ← Back
+        </a>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-6">
+        <div class="bg-blue-600 text-white px-6 py-3">
+            <strong class="text-lg">Current Supplier Information</strong>
+        </div>
+        <div class="p-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <p class="m-0"><strong class="text-gray-700">ID:</strong> <span
+                        class="text-gray-600">{{ supplier.supplier_id }}</span></p>
+                <p class="m-0"><strong class="text-gray-700">Company Name:</strong> <span
+                        class="text-gray-600">{{ supplier.company_name }}</span></p>
+                <p class="m-0"><strong class="text-gray-700">Contact Name:</strong> <span
+                        class="text-gray-600">{{ supplier.contact_name }}</span></p>
+                <p class="m-0"><strong class="text-gray-700">Contact Title:</strong> <span
+                        class="text-gray-600">{{ supplier.contact_title }}</span></p>
+                <p class="m-0"><strong class="text-gray-700">Address:</strong> <span
+                        class="text-gray-600">{{ supplier.address }}</span></p>
+                <p class="m-0"><strong class="text-gray-700">City:</strong> <span
+                        class="text-gray-600">{{ supplier.city }}</span></p>
+                <p class="m-0"><strong class="text-gray-700">Region:</strong> <span
+                        class="text-gray-600">{{ supplier.region|default:"(empty)" }}</span></p>
+            </div>
+
+            {% if supplier.image %}
+            <div class="mt-4">
+                <strong class="text-gray-700">Current Image:</strong>
+                <div class="mt-2">
+                    <img src="{{ supplier.image.url }}" alt="Current image" class="rounded-lg shadow-md"
+                         style="max-width: 300px;">
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3">
+            <strong class="text-lg">Edit Supplier Details</strong>
+        </div>
+        <div class="p-6">
+            <form method="POST" enctype="multipart/form-data" action="{% url 'update_supplier' supplier.supplier_id %}">
+                {% csrf_token %}
+
+                <div class="mb-4">
+                    <label for="id_company_name" class="block text-gray-700 font-semibold mb-2">
+                        <i class="bi bi-building me-1"></i>Company Name
+                    </label>
+                    {{ form.company_name }}
+                </div>
+
+                <div class="mb-4">
+                    <label for="id_contact_name" class="block text-gray-700 font-semibold mb-2">
+                        <i class="bi bi-person me-1"></i>Contact Name
+                    </label>
+                    {{ form.contact_name }}
+                </div>
+
+                <div class="mb-4">
+                    <label for="id_contact_title" class="block text-gray-700 font-semibold mb-2">
+                        <i class="bi bi-person-badge me-1"></i>Contact Title
+                    </label>
+                    {{ form.contact_title }}
+                </div>
+
+                <div class="mb-4">
+                    <label for="id_address" class="block text-gray-700 font-semibold mb-2">
+                        <i class="bi bi-geo-alt me-1"></i>Address
+                    </label>
+                    {{ form.address }}
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="mb-4">
+                        <label for="id_city" class="block text-gray-700 font-semibold mb-2">
+                            <i class="bi bi-building me-1"></i>City
+                        </label>
+                        {{ form.city }}
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="id_region" class="block text-gray-700 font-semibold mb-2">
+                            <i class="bi bi-map me-1"></i>Region
+                        </label>
+                        {{ form.region }}
+                        <div class="text-gray-500 text-sm mt-1">Optional region or state.</div>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label for="id_image" class="block text-gray-700 font-semibold mb-2">
+                        <i class="bi bi-image me-1"></i>Supplier Image
+                    </label>
+                    {{ form.image }}
+                    <div class="text-gray-500 text-sm mt-1">Upload a new image to replace the current one (optional).
+                    </div>
+                </div>
+
+                <div class="flex gap-3">
+                    <button type="submit"
+                            class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition duration-200 shadow-md">
+                        <i class="bi bi-check-circle me-2"></i>Save Changes
+                    </button>
+                    <a href="{% url 'suppliers' %}"
+                       class="bg-white border border-gray-300 hover:bg-gray-100 text-gray-700 font-medium py-2 px-6 rounded-lg transition duration-200 shadow-md no-underline inline-flex items-center">
+                        <i class="bi bi-x-circle me-2"></i>Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

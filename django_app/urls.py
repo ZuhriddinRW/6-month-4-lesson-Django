@@ -13,9 +13,12 @@ urlpatterns = [
     path ( 'add_category/', add_category, name="add_category" ),
     path ( 'add_product/', add_product, name="add_product" ),
     path ( 'add_supplier/', add_supplier, name="add_supplier" ),
-    path ( 'news/delete/<int:news_id>/', delete_news, name="delete_news" ),
+    path ( 'news/delete/<int:pk>/', delete_news, name="delete_news" ),
     path ( 'category/delete/<int:category_id>/', delete_category, name='delete_category' ),
     path ( 'product/delete/<int:product_id>/', delete_product, name='delete_product' ),
     path ( 'supplier/delete/<int:supplier_id>/', delete_supplier, name='delete_supplier' ),
-    path ( 'news/update/<int:news_id>/', update_news, name='update_news' )
+    path ( 'news/update/<int:pk>/', update_news, name='update_news' ),
+    path ( 'category/update/<int:category_id>/', update_category, name='update_category' ),
+    path ( 'product/update/<int:product_id>/', update_product, name='update_product' ),
+    path ( 'supplier/update/<int:supplier_id>/', update_supplier, name='update_supplier' )
 ]
