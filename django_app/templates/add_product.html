@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Product</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <h4 class="card-title mb-4 text-center text-primary">
+                        <i class="bi bi-cart-plus me-2"></i>
+                        Add Product
+                    </h4>
+
+                    <form action="{% url 'add_product' %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <div class="mb-4">
+                            <label for="{{ form.product_name.id_for_label }}" class="form-label fw-semibold text-muted">
+                                <i class="bi bi-text-indent-left me-2"></i>Product Name
+                            </label>
+                            {{ form.product_name }}
+                            {% if form.product_name.errors %}
+                            <div class="text-danger mt-1">{{ form.product_name.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="{{ form.category.id_for_label }}" class="form-label fw-semibold text-muted">
+                                <i class="bi bi-tag me-2"></i>Category
+                            </label>
+                            {{ form.category }}
+                            {% if form.category.errors %}
+                            <div class="text-danger mt-1">{{ form.category.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="{{ form.unit_price.id_for_label }}" class="form-label fw-semibold text-muted">
+                                <i class="bi bi-currency-dollar me-2"></i>Unit Price
+                            </label>
+                            {{ form.unit_price }}
+                            {% if form.unit_price.errors %}
+                            <div class="text-danger mt-1">{{ form.unit_price.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="{{ form.description.id_for_label }}" class="form-label fw-semibold text-muted">
+                                <i class="bi bi-card-text me-2"></i>Description
+                            </label>
+                            {{ form.description }}
+                            {% if form.description.errors %}
+                            <div class="text-danger mt-1">{{ form.description.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-lg w-100 rounded-3 shadow">
+                            <i class="bi bi-send me-2"></i>Add Product
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Products</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+<div class="container mx-auto px-4 py-8">
+
+    <div class="flex justify-between items-center mb-8 bg-white rounded-lg shadow-md p-4">
+        <h2 class="text-3xl font-bold text-blue-600 m-0">Products</h2>
+        <a href="{% url 'index' %}" class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition">
+            ← Back
+        </a>
+    </div>
+
+    <div class="flex flex-wrap justify-center gap-2 mb-8">
+        <a href="{% url 'products' %}" class="no-underline">
+            <button type="button"
+                    class="px-6 py-2 rounded-lg font-medium transition {% if request.resolver_match.url_name == 'products' %}bg-blue-600 text-white shadow-lg{% else %}bg-white text-gray-700 hover:bg-gray-100 shadow-md{% endif %}">
+                All Categories
+            </button>
+        </a>
+        {% for category in categories %}
+        <a href="{% url 'products_by_category' category.category_id %}" class="no-underline">
+            <button type="button"
+                    class="px-6 py-2 rounded-lg font-medium transition {% if request.resolver_match.url_name == 'products_by_category' and request.resolver_match.kwargs.category_id == category.category_id %}bg-blue-600 text-white shadow-lg{% else %}bg-white text-gray-700 hover:bg-gray-100 shadow-md{% endif %}">
+                {{ category.category_name }}
+            </button>
+        </a>
+        {% endfor %}
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for product in products %}
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300">
+            {% if product.image %}
+            <img src="{{product.image.url}}" class="w-full h-64 object-contain bg-gray-100"
+                 alt="{{product.product_name}}">
+            {% else %}
+            <img src="https://www.printwand.com/blog/media/2012/01/ultimate-guide-to-your-product-launch.jpg"
+                 class="w-full h-64 object-contain bg-gray-100"
+                 alt="Product image">
+            {% endif %}
+            <div class="p-5">
+                <h5 class="text-xl font-bold mb-3 text-gray-800">{{product.product_name}}</h5>
+                <p class="mb-3">
+                    <span class="font-semibold text-gray-700">Category:</span>
+                    <span class="inline-block bg-blue-500 text-white text-sm px-3 py-1 rounded-full ml-2">{{product.category}}</span>
+                </p>
+                <p class="mb-3">
+                    <span class="font-semibold text-gray-700">Unit Price:</span>
+                    <span class="text-green-600 font-bold ml-2">{{product.unit_price}}</span>
+                </p>
+                <p class="text-gray-500 text-sm mb-4">{{product.description}}</p>
+
+                <form method="POST" action="{% url 'delete_product' product.product_id %}"
+                      onsubmit="return confirm('Are you sure you want to delete {{product.product_name}}?');">
+                    {% csrf_token %}
+                    <button type="submit"
+                            class="w-full bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded-lg transition duration-200">
+                        🗑️ Delete Product
+                    </button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+</body>
+</html>

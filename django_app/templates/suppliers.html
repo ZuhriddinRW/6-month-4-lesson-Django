@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Suppliers</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+<div class="container mx-auto px-4 py-8">
+
+    <div class="flex justify-between items-center mb-8 bg-white rounded-lg shadow-md p-4">
+        <h2 class="text-3xl font-bold text-blue-600 m-0">Suppliers</h2>
+        <a href="javascript:history.back()"
+           class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition">
+            ← Back
+        </a>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for supplier in suppliers %}
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300">
+            {% if supplier.image %}
+            <img src="{{supplier.image.url}}" class="w-full h-64 object-contain bg-gray-100"
+                 alt="{{supplier.company_name}}">
+            {% else %}
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlOVMFIxIQrDRyTz_k5-R5rI5tVZEYrjNcJw&s"
+                 class="w-full h-64 object-contain bg-gray-100" alt="Supplier image">
+            {% endif %}
+            <div class="p-5">
+                <h5 class="text-xl font-bold mb-3 text-gray-800">Supplier ID: {{supplier.supplier_id}}</h5>
+                <p class="mb-2">
+                    <span class="font-semibold text-gray-700">Company Name:</span>
+                    <span class="text-green-600 font-bold ml-2">{{supplier.company_name}}</span>
+                </p>
+                <p class="mb-2">
+                    <span class="font-semibold text-gray-700">Contact Name:</span>
+                    <span class="text-green-600 font-bold ml-2">{{supplier.contact_name}}</span>
+                </p>
+                <p class="mb-2">
+                    <span class="font-semibold text-gray-700">Contact Title:</span>
+                    <span class="text-green-600 font-bold ml-2">{{supplier.contact_title}}</span>
+                </p>
+                <p class="mb-2">
+                    <span class="font-semibold text-gray-700">Address:</span>
+                    <span class="text-green-600 font-bold ml-2">{{supplier.address}}</span>
+                </p>
+                <p class="mb-2">
+                    <span class="font-semibold text-gray-700">City:</span>
+                    <span class="text-green-600 font-bold ml-2">{{supplier.city}}</span>
+                </p>
+                <p class="mb-4">
+                    <span class="font-semibold text-gray-700">Region:</span>
+                    <span class="text-green-600 font-bold ml-2">{{supplier.region}}</span>
+                </p>
+
+                <form method="POST" action="{% url 'delete_supplier' supplier.supplier_id %}"
+                      onsubmit="return confirm('Are you sure you want to delete {{supplier.contact_name}}?');">
+                    {% csrf_token %}
+                    <button type="submit"
+                            class="w-full bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded-lg transition duration-200">
+                        🗑️ Delete Supplier
+                    </button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-5">
+<div class="max-w-6xl mx-auto">
+    <h1 class="text-center text-3xl font-bold text-gray-800 mb-10">
+        📦 Store Management System
+    </h1>
+
+    <div class="mb-8">
+        <a href="{% url 'admin:index' %}"
+           class="block w-full bg-red-600 text-white text-center py-4 rounded-lg font-semibold hover:bg-red-700 transition mb-6">
+            👨‍💻 Django Admin
+        </a>
+    </div>
+
+    <nav class="grid gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 mb-8">
+        <a href="{% url 'news' %}"
+           class="bg-blue-600 text-white text-center py-4 rounded-lg font-semibold hover:bg-blue-700 transition">
+            📰 News
+        </a>
+        <a href="{% url 'categories' %}"
+           class="bg-blue-600 text-white text-center py-4 rounded-lg font-semibold hover:bg-blue-700 transition">
+            📚 Categories
+        </a>
+        <a href="{% url 'products' %}"
+           class="bg-blue-600 text-white text-center py-4 rounded-lg font-semibold hover:bg-blue-700 transition">
+            ✅ Products
+        </a>
+        <a href="{% url 'suppliers' %}"
+           class="bg-blue-600 text-white text-center py-4 rounded-lg font-semibold hover:bg-blue-700 transition">
+            🔖 Suppliers
+        </a>
+        <a href="{% url 'add_news' %}"
+           class="bg-green-600 text-white text-center py-4 rounded-lg font-semibold hover:bg-green-700 transition">
+            ➕ Add News
+        </a>
+        <a href="{% url 'add_category' %}"
+           class="bg-green-600 text-white text-center py-4 rounded-lg font-semibold hover:bg-green-700 transition">
+            ➕ Add Category
+        </a>
+        <a href="{% url 'add_product' %}"
+           class="bg-green-600 text-white text-center py-4 rounded-lg font-semibold hover:bg-green-700 transition">
+            ➕ Add Product
+        </a>
+        <a href="{% url 'add_supplier' %}"
+           class="bg-green-600 text-white text-center py-4 rounded-lg font-semibold hover:bg-green-700 transition">
+            ➕ Add Supplier
+        </a>
+    </nav>
+</div>
+</body>
+</html>
