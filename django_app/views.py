@@ -10,9 +10,9 @@ def index(request) :
     return render ( request, 'index.html' )
 
 
-def news(request):
-    news = News.objects.all()
-    return render ( request, 'news.html', {'news': news} )
+def news(request) :
+    news = News.objects.all ()
+    return render ( request, 'news.html', {'news' : news} )
 
 
 def categories(request) :
@@ -120,17 +120,27 @@ def delete_supplier(request, supplier_id) :
     return redirect ( 'suppliers' )
 
 
-def update_news(request, news_id):
-    news = get_object_or_404(News, news_id=news_id)
-    if request.method == "POST":
-        form = NewsForm(request.POST, instance=news )
-        if form.is_valid():
-            form.save()
-            return redirect('index')
-    else:
-        form = NewsForm(instance=news)
+def delete_news(request, news_id) :
+    if request.method == "POST" :
+        news = get_object_or_404 ( News, news_id=news_id )
+        news_title = News.title
+        news.delete ()
+        messages.success ( request, f"News '{news_title}' has been deleted successfully." )
+        return redirect ( 'news' )
+    return redirect ( 'news' )
+
+
+def update_news(request, news_id) :
+    news = get_object_or_404 ( News, news_id=news_id )
+    if request.method == "POST" :
+        form = NewsForm ( request.POST, request.FILES, instance=news )
+        if form.is_valid () :
+            form.save ()
+            return redirect ( 'index' )
+    else :
+        form = NewsForm ( instance=news )
     context = {
-        'form': form,
-        'news': news
+        'form' : form,
+        'news' : news
     }
-    return render(request, 'update_news.html', context=context)
+    return render ( request, 'update_news.html', context=context )

@@ -3,44 +3,36 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django_app.models import Category, Product, Supplier, News
 
+from django import forms
+from django.core.exceptions import ValidationError
+from .models import News, Category
+import re
 
-class NewsForm ( forms.Form ) :
-    title = forms.CharField (
-        max_length=100,
-        label='Title',
-        widget=forms.TextInput ( attrs={
-            'class' : 'form-control rounded-3 border-primary mb-0',
-        } )
-    )
-    content = forms.CharField (
-        required=False,
-        label='Content',
-        widget=forms.Textarea ( attrs={
-            'class' : 'form-control rounded-3 border-primary',
-            'rows' : 6,
-            'style' : 'resize: vertical; min-height: 120px;'
-        } )
-    )
-    photo = forms.ImageField (
-        required=False,
-        widget=forms.ClearableFileInput ( attrs={
-            'class' : 'form-control rounded-3 border-primary',
-        } )
-    )
-    bool = forms.BooleanField (
-        required=False,
-        initial=False,
-        label='Bool',
-        widget=forms.CheckboxInput ( attrs={
-            'class' : 'form-check-input',
-        } )
-    )
-    category = forms.ModelChoiceField (
-        queryset=Category.objects.all (),
-        widget=forms.Select ( attrs={
-            'class' : 'form-select rounded-3 border-primary',
-        } )
-    )
+
+class NewsForm ( forms.ModelForm ) :
+    class Meta :
+        model = News
+        fields = '__all__'
+
+        widgets = {
+            'title' : forms.TextInput ( attrs={
+                'class' : 'form-control rounded-3 border-primary mb-0',
+            } ),
+            'content' : forms.Textarea ( attrs={
+                'class' : 'form-control rounded-3 border-primary',
+                'rows' : 6,
+                'style' : 'resize: vertical; min-height: 120px;'
+            } ),
+            'photo' : forms.ClearableFileInput ( attrs={
+                'class' : 'form-control rounded-3 border-primary',
+            } ),
+            'bool' : forms.CheckboxInput ( attrs={
+                'class' : 'form-check-input',
+            } ),
+            'category' : forms.Select ( attrs={
+                'class' : 'form-select rounded-3 border-primary',
+            } ),
+        }
 
     def clean_title(self) :
         title = self.cleaned_data.get ( 'title', '' )
